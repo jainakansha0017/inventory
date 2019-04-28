@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row" >
+  <div class="col-xs-2"></div>
+  <div class="col-xs-10">
+    <strong style="font-size:24px">Listing Sale Orders</strong>
+      
+  </div>
+</div>
+<br>
+<table class='table table-bordered table-striped table-condensed'>
+  <thead>
+    <tr>
+      <th>Order Id</th>
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total Price</th>
+      <th>Order Date</th>
+      <th>Status</th>
+      <th>Total sold quantity</th>
+      <th>Total sold price</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= Product.find(order.product_id).drug_name %></td>
+        <td><%= order.quantity %></td>
+        <td><%= order.price %></td>
+        <td><%= order.total_price %></td>
+        <td><%= order.created_at.strftime("%d-%^b-%Y %H-%M-%S") %></td>
+        <td><%= order.status %></td>
+        <td>
+          <% if order.sold_quantity==nil %>
+            -
+          <% else %>
+            <%= order.sold_quantity %>
+          <% end %>
+        </td>
+          <td>
+          <% if order.sold_total_price==nil %>
+            -
+          <% else %>
+            <%= order.sold_total_price %>
+          <% end %>
+        </td>
+        <td><% if order.reason==nil %>
+              -
+            <% else %>
+              <%= order.reason %>
+            <% end %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<div><%= link_to 'New Sale Order', new_order_path, style:"color:green;margin-left:90px"  %></div>
+<div><%= link_to 'Process Order', process_order_orders_path, style:"color:green;margin-left:90px"  %></div>
+

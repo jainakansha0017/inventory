@@ -1,0 +1,42 @@
+<br>
+<div class="row">
+  <div class="col-xs-2"></div>
+  <div class="col-xs-10">
+    <strong style="font-size:24px">New Order</strong>
+      
+  </div>
+</div>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', orders_path, class: "pull-right",style: "margin-right:100px;color:green" %>
+
+<script>
+price_fetch();
+	$("#order_product_id").change(function(){
+		price_fetch();
+		
+	})
+	function price_fetch()
+	{
+			$.get("/orders/price_fetch",{id : $("#order_product_id").val()},function(data)
+			{
+				console.log(data)
+				if(data.responce=="Success")
+				{
+					$("#order_price").val(data.product.price);
+					if($("#order_quantity").val()!="")
+						{
+							cal_total_price();
+						}
+				}
+			});
+	}
+	$("#order_quantity").change(function(){
+		cal_total_price();
+	});
+	function cal_total_price()
+	{
+		$("#order_total_price").val(parseFloat($("#order_price").val()) * parseFloat($("#order_quantity").val())) ;
+	}
+</script>

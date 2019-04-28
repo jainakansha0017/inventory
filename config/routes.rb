@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :orders do
+    collection do
+        get 'price_fetch'
+        get 'process_order'
+      end
+    end
   resources :products do
     member do
     get 'mapping'
