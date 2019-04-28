@@ -1,0 +1,78 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row" >
+  <div class="col-xs-2"></div>
+  <div class="col-xs-10">
+    <strong style="font-size:24px">Listing Products</strong>
+      
+  </div>
+</div>
+<br>
+<table class='table table-bordered table-striped table-condensed'>
+  <thead>
+    <tr>
+
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th></th>
+     
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+       
+        <td><%= product.drug_name %></td>
+        <td><%= product.quantity %></td>
+        <td><%= product.price %></td>
+        <td><%= link_to 'Edit', edit_product_path(product), style:"color:green" %></td>
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="row" >
+  <div class="col-xs-2"></div>
+  <div class="col-xs-10">
+    <strong style="font-size:24px">Mapping of Products</strong>
+      
+  </div>
+</div>
+<br>
+<table class='table table-bordered table-striped table-condensed'>
+  <thead>
+    <tr>
+     
+      <th>Product Name</th>
+      <th>Category Name</th>  
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+    <% a= Category.joins("join categories_products on categories_products.category_id=categories.id").where("categories_products.product_id = ? ", product.id) %>
+    <tr>
+        <td rowspan=<%=a.length %>><%= product.drug_name %></td>
+        <% i=0 %>
+    <% a.each do |t| %>
+    <% if i!=0 %>
+      <tr>
+    <% end %>
+        
+        <td><%=  t.name %> </td>
+         <% if i==0 %>
+        <td rowspan=<%=a.length %>><%= link_to 'Add more categories', mapping_product_path(product), style:"color:green" %></td>
+        <% end %>
+        <% i=i+1 %>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Create New Product', new_product_path, style:"color:green;margin-left:90px" %>
